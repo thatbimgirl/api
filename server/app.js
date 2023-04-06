@@ -8,6 +8,7 @@ import cors from 'cors';
 import indexRouter from './routes/index.js';
 import testAPIRouter from './routes/testAPI.js';
 import usersRouter from './routes/users.js';
+import convexhullRouter from './routes/convexhull.js'
 import { fileURLToPath } from 'url';
 
 const __filename = fileURLToPath(import.meta.url);
@@ -37,6 +38,7 @@ app.use(express.static(path.join(__dirname, '../public')));
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/testAPI', testAPIRouter);
+app.use('/convexhull', convexhullRouter);
 
 
 app.set('views', path.join(__dirname, 'views'));

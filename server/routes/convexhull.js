@@ -34,11 +34,12 @@ router.get('/', function(req, res, next) {
     //var c = volume.getAttribute("metadata");
     //var d = calcs.getArrayFromTxt();
     //console.log(volume.attributes.position.array);
-    var footprint = [];
-    footprint = calcs.getBottomPlane();
+    var convexPoints = [];
+    //footprint = calcs.getBottomPlane();
     //footprint = calcs.getVectorsFromTxt();
-    //footprint = calcs.pointsToConvexVolume();
-    res.json(footprint);
+    convexPoints = calcs.convexPoints();
+    //footprint = calcs.addition(5,10);
+    res.json(convexPoints);
     hello();
 });
 

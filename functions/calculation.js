@@ -26,19 +26,24 @@ function generatePoints(points) {
 
 function getVectorsFromTxt(){
     var points2 = [];
-    var text = fs.readFileSync("Pointlist.txt", "utf-8");
+    var text = fs.readFileSync("Building_Comma.txt", "utf-8");
     var textbyLine = text.split("\r\n");
     //textbyLine.length
+    //console.log(textbyLine);
     for (let i = 0; i < textbyLine.length ; i++){
         //textbyLine[i] = textbyLine[i].toString;
+        //console.log(textbyLine[i]);
         textbyLine[i] = textbyLine[i].split(",");
+        //console.log(textbyLine[i]);
         textbyLine[i][0] = parseFloat(textbyLine[i][0]);
         textbyLine[i][1] = parseFloat(textbyLine[i][1]);
         textbyLine[i][2] = parseFloat(textbyLine[i][2]);
-        //console.log(textbyLine[i]);
+
         points2.push(new THREE.Vector3(textbyLine[i][0], textbyLine[i][1], textbyLine[i][2]));
         //console.log('vector created');
     }
+
+    //return textbyLine;
     return points2;
 }
 
@@ -47,11 +52,23 @@ function pointsToConvexVolume(){
   points2 = getVectorsFromTxt();
   const convexGeom = new ConvexGeometry.ConvexGeometry(points2);
   const convexVolume = getVolume(convexGeom);
-  var convexPoints = [];
-  convexPoints = convexGeom.getAttribute("instanceMatrix"); 
+
    //convexPoints = convexGeom.isBufferGeometry;
   //return convexVolume.toFixed(2);
   return convexGeom;
+}
+
+function convexPoints(){
+  var points2 = [];
+  points2 = getVectorsFromTxt();
+  const convexGeom = new ConvexGeometry.ConvexGeometry(points2);
+  const convexVolume = getVolume(convexGeom);
+  var convexPoints = [];
+  convexPoints = convexGeom.attributes.position.array;
+   //convexPoints = convexGeom.isBufferGeometry;
+  //return convexVolume.toFixed(2);
+  convexPoints = Object.values(convexPoints);
+  return convexPoints;
 }
 
 function getBottomPlane (){
@@ -62,12 +79,13 @@ function getBottomPlane (){
   d = convexGeom.attributes.position.array;
 
   for (let i = 0; i < d.length/3 ; i++){
-    const x = d[3*i];
-    const y = d[3*i+1];
-    const z = d[3*i+2];
+    const x = d[3*i].toFixed(2);
+    const y = d[3*i+1].toFixed(2);
+    const z = d[3*i+2].toFixed(2);
     //Write algorithm to find lowest y value    
-    if (z == 0) {
-      bottomPoints.push(new THREE.Vector2(x,y));
+    if (y == -1.20) {
+      bottomPoints.push(new THREE.Vector2(x,z));
+      console.log(x,y,z);
       //bottomPoints.push([x,y]);
     };
   }
@@ -80,11 +98,13 @@ function getBottomPlane (){
   var unique = [];
   unique.push(bottomPoints[0]);
   unique.push(bottomPoints[1]);
-  unique.push(bottomPoints[3]);
-  unique.push(bottomPoints[9]);
+  unique.push(bottomPoints[7]);
+  unique.push(bottomPoints[2]);
 
   var a = THREE.ShapeUtils.area(unique);
+  
   return a.toFixed(2);
+
 };
 
 
@@ -129,7 +149,7 @@ function getVolume(geometry) {
     return p1.dot(p2.cross(p3)) / 6.0;
   }
 
-export {generatePoints, addition, getVolume, signedVolumeOfTriangle, getVectorsFromTxt, pointsToConvexVolume, getBottomPlane};
+export {generatePoints, addition, getVolume, signedVolumeOfTriangle, getVectorsFromTxt, pointsToConvexVolume, getBottomPlane, convexPoints};
 
 /*exports.addition = addition;
 exports.getPointsFromTxt = getPointsFromTxt;
