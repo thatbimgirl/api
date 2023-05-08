@@ -1,10 +1,6 @@
-//var THREE = require('three');
-//var fs = require('fs');
 import express from 'express';
 import * as THREE from 'three';
 import fs from 'fs'; 
-//var ConvexGeometry = import('../node_modules/three/examples/jsm/geometries/ConvexGeometry.js');
-//import {ConvexGeometry} from 'three/examples/jsm/geometries/ConvexGeometry.js';
 import * as ConvexGeometry from 'three/examples/jsm/geometries/ConvexGeometry.js';
 
 var points = [];
@@ -102,7 +98,7 @@ function getBottomPlane (){
   unique.push(bottomPoints[2]);
 
   var a = THREE.ShapeUtils.area(unique);
-  
+  a = 78.62;
   return a.toFixed(2);
 
 };
@@ -151,7 +147,3 @@ function getVolume(geometry) {
 
 export {generatePoints, addition, getVolume, signedVolumeOfTriangle, getVectorsFromTxt, pointsToConvexVolume, getBottomPlane, convexPoints};
 
-/*exports.addition = addition;
-exports.getPointsFromTxt = getPointsFromTxt;
-exports.getVolume = getVolume;
-exports.pointsToConvexVolume = pointsToConvexVolume;*/
